@@ -1,24 +1,25 @@
 const template = document.querySelector(`#templates`);
 const screens = template.content.querySelectorAll(`section.main`);
 const target = document.querySelector(`.app .main`);
+const LEFT_ARROW = 37;
+const RIGHT_ARROW = 39;
+const order = [4, 0, 3, 2, 1];
+
 
 const showScreen = (num) => {
   if (target.children.length) {
-    target.replaceChild(screens[num], target.firstElementChild);
+    target.replaceChild(screens[order[num]], target.firstElementChild);
   } else {
-    target.appendChild(screens[num]);
+    target.appendChild(screens[order[num]]);
   }
-
 };
 
-let currentScreenIdx = Array.prototype.findIndex.call(screens, (screen) => {
-  return screen.classList.contains(`main--welcome`);
-});
+let currentScreenIdx = 0;
 
 showScreen(currentScreenIdx);
 
 document.addEventListener(`keydown`, (evt) => {
-  if (evt.altKey && evt.keyCode === 39) {
+  if (evt.altKey && evt.keyCode === RIGHT_ARROW) {
     if (currentScreenIdx === screens.length - 1) {
       currentScreenIdx = -1;
     }
@@ -26,7 +27,7 @@ document.addEventListener(`keydown`, (evt) => {
     showScreen(++currentScreenIdx);
   }
 
-  if (evt.altKey && evt.keyCode === 37) {
+  if (evt.altKey && evt.keyCode === LEFT_ARROW) {
     evt.preventDefault();
     if (currentScreenIdx === 0) {
       currentScreenIdx = screens.length;
@@ -35,4 +36,3 @@ document.addEventListener(`keydown`, (evt) => {
     showScreen(--currentScreenIdx);
   }
 });
-
